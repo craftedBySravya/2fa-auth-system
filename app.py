@@ -1,6 +1,8 @@
 from flask import Flask, render_template, request, redirect, session, flash
 import json, os, bcrypt, random, smtplib, time
 import re 
+from dotenv import load_dotenv
+load_dotenv()
 
 app = Flask(__name__)
 app.secret_key = "sravya_super_secret_key"  # for session management
@@ -47,8 +49,8 @@ def generate_otp():
 
 # Send OTP
 def send_otp_email(to_email, otp):
-    sender_email = "sravyasrinivas13@gmail.com"
-    app_password = "glnf uxej qvkg efyk"  # your Gmail App Password
+    sender_email = os.getenv("EMAIL_ADDRESS")
+    app_password = os.getenv("EMAIL_PASSWORD")
 
     subject = "Your OTP Verification Code"
     body = f"Hello,\n\nYour OTP code is: {otp}\nIt will expire in 2 minutes.\n\nThank you!"

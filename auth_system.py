@@ -33,7 +33,7 @@ def generate_otp():
 
 # Send OTP via Gmail
 def send_otp_email(to_email, otp):
-    sender_email = "sravyasrinivas13@gmail.com"
+    sender_email = os.getenv("EMAIL_ADDRESS")
     app_password = "your_app_password_here"
 
     subject = "Your OTP Verification Code"
@@ -71,7 +71,7 @@ def check_login(username, password):
 
     print("✅ Login successful! Proceed to OTP verification.")
     otp = generate_otp()
-    email_sent = send_otp_email("sravyasrinivas13@gmail.com", otp)
+    email_sent = send_otp_email(sender_email, otp)
 
     if email_sent:
         start_time = time.time()
