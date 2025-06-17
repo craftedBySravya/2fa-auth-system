@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Create Account</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+  <style>
+    body {
+      background: linear-gradient(135deg, #1f1c2c, #928dab);
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      color: #f4f4f4;
+    }
+
+    .container {
+      background-color: #2c2c54;
+      padding: 40px 50px;
+      border-radius: 20px;
+      box-shadow: 0 8px 30px rgba(0, 0, 0, 0.4);
+      width: 450px;
+      max-width: 90%;
+    }
+
+    .title {
+      text-align: center;
+      font-size: 28px;
+      margin-bottom: 25px;
+      color: #ffffff;
+    }
+
+    .form-box input {
+      width: 100%;
+      padding: 12px;
+      margin: 10px 0 5px;
+      border: none;
+      border-radius: 8px;
+      font-size: 15px;
+      background-color: #403d66;
+      color: #f0f0f0;
+    }
+
+    .form-box input::placeholder {
+      color: #ccc;
+    }
+
+    .toggle {
+      position: absolute;
+      top: 14px;
+      right: 14px;
+      cursor: pointer;
+      color: #ccc;
+    }
+
+    .btn {
+      width: 100%;
+      padding: 12px;
+      margin-top: 20px;
+      background-color: #a678e2;
+      color: white;
+      border: none;
+      border-radius: 10px;
+      font-size: 16px;
+      cursor: pointer;
+      transition: background 0.3s ease;
+    }
+
+    .btn:hover {
+      background-color: #8f5ed4;
+    }
+
+    .link-text {
+      text-align: center;
+      margin-top: 20px;
+      font-size: 14px;
+    }
+
+    .link-text a {
+      color: #d1b3ff;
+      text-decoration: none;
+    }
+
+    .flash-message {
+      background-color: #f44336;
+      color: white;
+      padding: 10px;
+      margin-bottom: 15px;
+      border-radius: 5px;
+      font-size: 14px;
+      text-align: center;
+    }
+
+    .strength,
+    .match-message {
+      font-size: 13px;
+      margin-top: 3px;
+    }
+
+    .weak {
+      color: #e57373;
+    }
+
+    .medium {
+      color: #ffb74d;
+    }
+
+    .strong {
+      color: #81c784;
+    }
+
+    .match {
+      color: #81c784;
+    }
+
+    .not-match {
+      color: #ef5350;
+    }
+  </style>
+  <script>
+    function toggleVisibility(id) {
+      const input = document.getElementById(id);
+      input.type = input.type === "password" ? "text" : "password";
+    }
+
+    function checkPasswordStrength(password) {
+      let strength = "Weak";
+      let className = "weak";
+
+      const strongRegex = new RegExp("^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[@$!%*#?&])[A-Za-z\\d@$!%*#?&]{8,}$");
+      const mediumRegex = new RegExp("^(((?=.*[a-z])(?=.*[A-Z]))|((?=.*[a-z])(?=.*\\d))).{6,}$");
+
+      if (strongRegex.test(password)) {
+        strength = "Strong";
+        className = "strong";
+      } else if (mediumRegex.test(password)) {
+        strength = "Medium";
+        className = "medium";
+      }
+
+      const strengthText = document.getElementById("strengthText");
+      strengthText.textContent = `Strength: ${strength}`;
+      strengthText.className = `strength ${className}`;
+    }
+
+    function checkPasswordMatch() {
+      const password = document.getElementById("password").value;
+      const confirm = document.getElementById("confirm").value;
+      const matchMsg = document.getElementById("matchMessage");
+
+      if (confirm === "") {
+        matchMsg.textContent = "";
+        return;
+      }
+
+      if (password === confirm) {
+        matchMsg.textContent = "✅ Passwords match";
+        matchMsg.className = "match-message match";
+      } else {
+        matchMsg.textContent = "❌ Passwords do not match";
+        matchMsg.className = "match-message not-match";
+      }
+    }
+  </script>
+</head>
+<body>
+  <div class="container">
+    <h2 class="title">Create Your Account 🔐</h2>
+
+    {% with messages = get_flashed_messages(with_categories=true) %}
+      {% if messages %}
+        {% for category, message in messages %}
+          <div class="flash-message {{ category }}">{{ message }}</div>
+        {% endfor %}
+      {% endif %}
+    {% endwith %}
+
+    <form class="form-box" method="POST" action="/signup">
+      <input type="text" name="fullname" placeholder="Full Name (optional)" />
+
+      <input type="text" name="username" placeholder="Username" required />
+
+      <div style="position: relative;">
+        <input type="password" id="password" name="password" placeholder="Password" required
+               oninput="checkPasswordStrength(this.value); checkPasswordMatch();" />
+        <span class="toggle" onclick="toggleVisibility('password')">👁️</span>
+        <div id="strengthText" class="strength"></div>
+        <small style="color: #aaa;">Use at least 8 characters with uppercase, number, and symbol.</small>
+      </div>
+
+      <div style="position: relative;">
+        <input type="password" id="confirm" name="confirm" placeholder="Confirm Password" required
+               oninput="checkPasswordMatch();" />
+        <span class="toggle" onclick="toggleVisibility('confirm')">👁️</span>
+        <div id="matchMessage" class="match-message"></div>
+      </div>
+
+      <button type="submit" class="btn">Create Account</button>
+    </form>
+
+    <div class="link-text">
+      Already have an account? <a href="/login">Login →</a>
+    </div>
+  </div>
+</body>
+</html>

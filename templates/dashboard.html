@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Dashboard - 2FA System</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: linear-gradient(135deg, #1f1c2c, #928dab);
+      color: #f0f0f0;
+    }
+
+    header {
+      background-color: #2c2c54;
+      padding: 20px 40px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+    }
+
+    header h1 {
+      font-size: 26px;
+      margin: 0;
+      color: #ffffff;
+    }
+
+    nav a {
+      color: #d1b3ff;
+      text-decoration: none;
+      margin-left: 20px;
+      font-size: 15px;
+    }
+
+    nav a:hover {
+      text-decoration: underline;
+    }
+
+    main {
+      padding: 50px 10%;
+      display: flex;
+      flex-direction: column;
+      gap: 40px;
+    }
+
+    section {
+      background-color: rgba(44, 44, 84, 0.8);
+      padding: 30px;
+      border-radius: 12px;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+    }
+
+    section h2 {
+      margin-top: 0;
+      font-size: 22px;
+      color: #fff;
+    }
+
+    section p {
+      line-height: 1.6;
+      font-size: 16px;
+      color: #e0dfff;
+    }
+
+    footer {
+      text-align: center;
+      padding: 20px;
+      background-color: #2c2c54;
+      color: #aaa;
+      font-size: 14px;
+      margin-top: 40px;
+    }
+
+    .username-highlight {
+      color: #ffd700;
+      font-weight: bold;
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <h1>🔐 2FA Authentication System</h1>
+    <nav>
+      <a href="/">Home</a>
+      <a href="/logout">Logout</a>
+    </nav>
+  </header>
+
+  <main>
+    <section>
+      <h2>Welcome <span class="username-highlight">{{ username }}</span>!</h2>
+      <p>This is your secure dashboard. You're successfully logged in using a dual-layer authentication system — combining password-based and OTP email verification for enhanced safety.</p>
+    </section>
+
+    <section>
+      <h2>🔍 What is This Project?</h2>
+      <p>This is a Two-Factor Authentication (2FA) system built with Python and Flask. It uses <strong>bcrypt</strong> to hash your passwords and <strong>Gmail SMTP</strong> to send you OTPs. All user data is stored securely in a JSON file.</p>
+    </section>
+
+    <section>
+      <h2>👩‍💻 Who Made This?</h2>
+      <p>
+        This project was developed by <strong>Pagolu Sravya</strong>, a cybersecurity and digital forensics professional with an academic background from the National Forensic Sciences University, Gujarat. She focuses on building secure, practical solutions to enhance digital safety and user experience.
+      </p>
+    </section>
+
+    <section>
+      <h2>🎯 Why This Project?</h2>
+      <p>2FA is one of the most recommended authentication strategies to prevent unauthorized access. This project is a simple yet effective demonstration of that, and serves as a foundation for more advanced systems in future!</p>
+    </section>
+  </main>
+
+  <footer>
+    © 2025 Sravya | Secure 2FA System | All Rights Reserved
+  </footer>
+
+</body>
+</html>
