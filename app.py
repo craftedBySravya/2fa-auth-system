@@ -120,7 +120,7 @@ def login():
             "attempts": 0
         }
         session["username"] = username
-        send_otp_email("sravyasrinivas13@gmail.com", otp)
+        send_otp_email(sender_email, otp)
         return redirect("/verify")
 
     return render_template("login.html")
